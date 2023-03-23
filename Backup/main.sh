@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
-main(){
-  return 0
+backup(){
+  files=$@
+  for file in $files
+  do
+    echo "$file" "$file.bak"
+    #cp "$file" "$file.bak"
+  done
 }
 
-main
-
+backup $@
