@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+usage(){
+  echo "Usage: [OPTIONS] FILES"
+}
+
 backup(){
   files=$@
   for file in $files
