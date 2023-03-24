@@ -7,13 +7,19 @@ usage(){
 backup(){
   # TODO:
   #   - Look into getopt vs getopts
+  local destination;
   while getopts "d:" option;
   do
     case "${option}" in
       d)
-        echo "OPT: $OPTARG"
+        if [ -d "$OPTARG" ]; then # TODO: Bug: Fails on current directory '.'
+          echo "Destination Not Found: '$OPTARG'"
+          return 1
+        fi
+        destination=$OPTARG
         ;;
       ?)
+        usage
         return 1;
         ;;
       *)
@@ -23,14 +29,18 @@ backup(){
   done
   shift $((OPTIND-1)) # Shift to position of next arg after options
 
+  if [ -z $destination ];then
+    destination="."
+  fi
+
+  echo "DEST: $destination"
   local files=$*
-  local destination="."
   for file in $files
   do
-    if test -e $file; then
+    if [ -e $file ]; then
       cp $file $destination
     else
-      echo "NOT FOUND: $file"
+      echo "File Not Found: $file"
       return 1;
     fi
   done
