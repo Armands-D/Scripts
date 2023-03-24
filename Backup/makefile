@@ -27,7 +27,7 @@ inalivd_opts:
 	@echo
 
 clean:
-	echo ""
+	rm *.txt
 
 .PHONY: clean
 

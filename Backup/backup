@@ -24,14 +24,15 @@ backup(){
   shift $((OPTIND-1)) # Shift to position of next arg after options
 
   local files=$*
+  local destination="."
   for file in $files
   do
     if test -e $file; then
-      echo "ARG: $file" "$file.bak"
+      cp $file $destination
     else
       echo "NOT FOUND: $file"
+      return 1;
     fi
-    #cp "$file" "$file.bak"
   done
 }
 
