@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+usage(){
+  echo "Usage: [OPTION]... [FILES]..."
+}
+
+backup(){
+  # TODO:
+  #   - Look into getopt vs getopts
+  while getopts "d:" option;
+  do
+    case "${option}" in
+      d)
+        echo "OPT: $OPTARG"
+        ;;
+      ?)
+        return 1;
+        ;;
+      *)
+        echo "OPT: None"
+        ;;
+    esac
+  done
+  shift $((OPTIND-1)) # Shift to position of next arg after options
+
+  local files=$*
+  for file in $files
+  do
+    if test -e $file; then
+      echo "ARG: $file" "$file.bak"
+    else
+      echo "NOT FOUND: $file"
+    fi
+    #cp "$file" "$file.bak"
+  done
+}
+
+backup $@
